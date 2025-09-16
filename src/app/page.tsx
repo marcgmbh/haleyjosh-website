@@ -96,7 +96,7 @@ export default function Home() {
 
         {/* right-side copy – perfectly aligns with video's right edge */}
         <div
-          className="absolute top-32  mb-8 text-right leading-relaxed text-xl"
+          className="absolute top-32  mb-4 text-right leading-relaxed text-xl"
           style={{ right: `calc(50% - ${HALF_VIDEO}px)` }}
         >
           <div className="mb-2">April 25, 2026.</div>
@@ -107,7 +107,7 @@ export default function Home() {
         </div>
 
         {/* ---------- Main vertical flow (video + controls + bottom decor) ----------- */}
-        <div className="flex flex-col items-center justify-center flex-grow mt-16">
+        <div className="flex flex-col items-center justify-center flex-grow mt-4">
           {/* video */}
           <div className="relative">
             <video
