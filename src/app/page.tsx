@@ -82,7 +82,6 @@ export default function Home() {
           style={{ left: `calc(50% - ${HALF_VIDEO}px)`, top: "6rem" }}
         >
           &ldquo;Describe your perfect date...&rdquo;
-
           {/* d1 graphic */}
           <Image
             src="/d1.svg"
@@ -108,7 +107,8 @@ export default function Home() {
 
         {/* ---------- Main vertical flow (video + controls + bottom decor) ----------- */}
         <div className="flex flex-col items-center justify-center flex-grow mt-4">
-          {/* video */}
+          {/* video  new */}
+
           <div className="relative">
             <video
               ref={videoRef}
