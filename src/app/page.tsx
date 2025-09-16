@@ -10,7 +10,7 @@ export default function Home() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
+  const [, setDuration] = useState(0);
 
   /* ------------------------------ video logic ----------------------------- */
   useEffect(() => {
@@ -38,7 +38,11 @@ export default function Home() {
   const togglePlay = () => {
     const video = videoRef.current;
     if (!video) return;
-    video.paused ? video.play() : video.pause();
+    if (video.paused) {
+      video.play();
+    } else {
+      video.pause();
+    }
   };
 
   const toggleMute = () => {
@@ -51,9 +55,11 @@ export default function Home() {
   const toggleFullscreen = () => {
     const video = videoRef.current;
     if (!video) return;
-    document.fullscreenElement
-      ? document.exitFullscreen()
-      : video.requestFullscreen();
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    } else {
+      video.requestFullscreen();
+    }
   };
 
   const formatTime = (time: number, showSeconds = true) => {
