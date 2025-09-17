@@ -73,66 +73,84 @@ export default function Home() {
   /* ------------------------------  layout  -------------------------------- */
 
   return (
-    <div className="h-screen bg-[#f5f2e8] text-[#7D2B18] flex justify-center overflow-hidden">
-      {/* centred / width-constrained canvas */}
-      <div className="relative w-full max-w-[1040px] px-6 h-full flex flex-col">
-        {/* headline and graphic together */}
-        <div
-          className="absolute text-xl"
-          style={{ left: `calc(50% - ${HALF_VIDEO}px)`, top: "6rem" }}
-        >
-          &ldquo;Describe your perfect date...&rdquo;
-          {/* d1 graphic */}
-          <Image
-            src="/d1.svg"
-            alt=""
-            width={180}
-            height={200}
-            className="mt-8 pl-16"
-            priority
-          />
+    <div className="h-screen max-h-screen overflow-hidden bg-[#f5f2e8] text-[#7D2B18] flex flex-col items-center px-4 py-8">
+      {/* Site overlay */}
+      <div
+        className="fixed inset-0 pointer-events-none z-10 opacity-5"
+        style={{
+          backgroundImage: "url(/overlay.jpg)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      />
+      {/* Main content container */}
+      <div className="w-full max-w-[1200px] flex flex-col items-center justify-center h-full space-y-6">
+        {/* Top section with headline and date info - aligned to video edges */}
+        <div className="w-full max-w-[720px] flex flex-col lg:flex-row lg:justify-between lg:items-center space-y-8 lg:space-y-0 text-xl">
+          {/* Left side - headline and graphic */}
+          <div>
+            &ldquo;Describe your perfect date...&rdquo;
+            <div className="hidden lg:block mt-8 pl-16">
+              <Image src="/d1.svg" alt="" width={144} height={160} priority />
+            </div>
+          </div>
+
+          {/* Right side - date details */}
+          <div className="lg:text-right leading-relaxed">
+            <div className="mb-2">April 25, 2026.</div>
+            <div>Frankies 457 Spuntino.</div>
+            <div>A night in Carroll Gardens.</div>
+            <div>Dinner&apos;s on us.</div>
+            <div>Bring a light jacket.</div>
+          </div>
         </div>
 
-        {/* right-side copy – perfectly aligns with video's right edge */}
-        <div
-          className="absolute top-32 text-right leading-relaxed text-xl"
-          style={{ right: `calc(50% - ${HALF_VIDEO}px)` }}
-        >
-          <div className="mb-2">April 25, 2026.</div>
-          <div>Frankies 457 Spuntino.</div>
-          <div>A night in Carroll Gardens.</div>
-          <div>Dinner&apos;s on us.</div>
-          <div>Bring a light jacket.</div>
-        </div>
-
-        {/* ---------- Main vertical flow (video + controls + bottom decor) ----------- */}
-        <div className="flex flex-col items-center justify-center flex-grow mt-4">
-          {/* video  new */}
-
-          <div className="relative">
+        {/* Video section */}
+        <div className="flex flex-col items-center space-y-4">
+          <div className="relative bg-[#f5f2e8] w-full max-w-[720px]">
             <video
               ref={videoRef}
-              width={VIDEO_WIDTH}
-              height={360}
+              className="bg-[#f5f2e8] cursor-pointer w-full h-auto"
               poster="/cover.png"
-              className="shadow-xl"
+              onClick={togglePlay}
             >
               <source src="/sample-video.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
+
+            {/* Play button overlay */}
+            {!isPlaying && (
+              <div
+                className="absolute inset-0 flex items-center justify-center cursor-pointer"
+                onClick={togglePlay}
+              >
+                <div className="w-16 h-16 flex items-center justify-center">
+                  <svg
+                    width="48"
+                    height="48"
+                    viewBox="0 0 24 24"
+                    fill="white"
+                    className="drop-shadow-lg"
+                  >
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* custom controls */}
-          <div
-            className="flex justify-between mt-4 text-xl"
-            style={{ width: VIDEO_WIDTH }}
-          >
-            <button
-              onClick={togglePlay}
-              className="hover:opacity-70 cursor-pointer"
-            >
-              {isPlaying ? `pause ${formatTime(currentTime)}/01:20` : "play"}
-            </button>
+          <div className="flex justify-between text-xl w-full max-w-[720px]">
+            <div className="flex items-center gap-2">
+              <button
+                onClick={togglePlay}
+                className="hover:opacity-70 cursor-pointer"
+              >
+                {isPlaying ? "pause" : "play"}
+              </button>
+              {isPlaying && <span>{formatTime(currentTime)}/01:20</span>}
+            </div>
 
             <div className="flex gap-6">
               <button
@@ -151,23 +169,26 @@ export default function Home() {
           </div>
         </div>
 
-        {/* bottom colour chips */}
-        <div className="absolute bottom-16 left-1/2 -translate-x-1/2 flex items-center">
-          <div className="w-16 h-12 bg-[#f5f2a8] mr-4"></div>
-
-          <div className="w-16 h-12 bg-[#a8c8d4] ml-4"></div>
-        </div>
-
-        {/* logo */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
-          <Image
-            src="/logo.svg"
-            alt="Logo"
-            width={60}
-            height={60}
-            className="opacity-80"
-            priority
-          />
+        {/* Bottom graphics */}
+        <div className="flex flex-col items-center">
+          <div className="relative flex items-center justify-center">
+            <Image
+              src="/d2.svg"
+              alt=""
+              width={280}
+              height={100}
+              priority
+              className="ml-24"
+            />
+            <Image
+              src="/logo.svg"
+              alt="Logo"
+              width={65}
+              height={65}
+              className="absolute opacity-80"
+              priority
+            />
+          </div>
         </div>
       </div>
     </div>
