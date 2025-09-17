@@ -96,15 +96,17 @@ export default function VideoPlayer() {
 
       {/* custom controls */}
       <div className="flex justify-between text-xl w-full max-w-[720px] 2xl:max-w-[880px]">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center">
           <button
             onClick={togglePlay}
             className="hover:opacity-70 cursor-pointer focus-visible:outline-2 focus-visible:outline-site-text"
             aria-label={isPlaying ? "Pause video" : "Play video"}
           >
-            {isPlaying ? "pause" : "play"}
+            <span className="flex items-center gap-4">
+              <span>{isPlaying ? "pause" : "play"}</span>
+              <span>{formatTime(currentTime)}/01:20</span>
+            </span>
           </button>
-          {isPlaying && <span>{formatTime(currentTime)}/01:20</span>}
         </div>
 
         <div className="flex gap-6">
