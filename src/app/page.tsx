@@ -3,7 +3,7 @@ import VideoPlayer from "./components/VideoPlayer";
 
 export default function Home() {
   return (
-    <div className="min-h-dvh bg-site-bg text-site-text flex flex-col items-center px-4 pt-20 pb-[calc(2rem+env(safe-area-inset-bottom))] lg:py-8">
+    <div className="h-dvh bg-site-bg text-site-text flex flex-col items-center px-4 py-4 lg:py-8">
       {/* Site overlay */}
       <div
         className="fixed inset-0 pointer-events-none z-10 opacity-5"
@@ -15,9 +15,9 @@ export default function Home() {
         }}
       />
       {/* Main content container */}
-      <div className="w-full max-w-[1200px] flex flex-col items-center justify-center h-full space-y-6">
+      <div className="w-full max-w-[1200px] flex flex-col items-center justify-center flex-1 space-y-4 lg:space-y-6">
         {/* Top section with headline and date info - aligned to video edges */}
-        <div className="w-full max-w-[720px] 2xl:max-w-[880px] flex flex-col lg:flex-row lg:justify-between lg:items-center space-y-8 lg:space-y-0 text-xl">
+        <div className="w-full max-w-[720px] 2xl:max-w-[880px] flex flex-col lg:flex-row lg:justify-between lg:items-center space-y-4 lg:space-y-0 text-lg lg:text-xl">
           {/* Left side - headline and graphic */}
           <div>
             <h1>&ldquo;Describe your perfect date...&rdquo;</h1>
@@ -63,7 +63,7 @@ export default function Home() {
         <VideoPlayer />
 
         {/* Bottom graphics */}
-        <div className="flex flex-col items-center mt-8 lg:mt-0">
+        <div className="flex flex-col items-center mt-12 lg:mt-16">
           <div className="relative flex items-center justify-center">
             <Image
               src="/d2.svg"

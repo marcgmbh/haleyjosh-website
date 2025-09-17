@@ -52,7 +52,7 @@ export default function VideoPlayer() {
   };
 
   return (
-    <div className="flex flex-col items-center space-y-4">
+    <div className="flex flex-col items-center space-y-2 lg:space-y-4">
       <div className="relative w-full max-w-[720px] 2xl:max-w-[880px]">
         <div className="relative aspect-video">
           <video
@@ -60,7 +60,6 @@ export default function VideoPlayer() {
             className="bg-site-bg cursor-pointer w-full h-full object-cover"
             poster="/cover.png"
             playsInline
-            muted
             preload="metadata"
             onClick={togglePlay}
             onTimeUpdate={handleTimeUpdate}
@@ -95,7 +94,7 @@ export default function VideoPlayer() {
       </div>
 
       {/* custom controls */}
-      <div className="flex justify-between text-xl w-full max-w-[720px] 2xl:max-w-[880px]">
+      <div className="flex justify-between text-lg lg:text-xl w-full max-w-[720px] 2xl:max-w-[880px]">
         <div className="flex items-center">
           <button
             onClick={togglePlay}
