@@ -1,79 +1,9 @@
-"use client";
 import Image from "next/image";
-import { useState, useRef, useEffect } from "react";
+import VideoPlayer from "./components/VideoPlayer";
 
 export default function Home() {
-  const VIDEO_WIDTH = 540; //  centralised value = fewer magic numbers
-  const HALF_VIDEO = VIDEO_WIDTH / 2;
-
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [, setDuration] = useState(0);
-
-  /* ------------------------------ video logic ----------------------------- */
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    const updateTime = () => setCurrentTime(video.currentTime);
-    const updateDuration = () => setDuration(video.duration);
-    const handlePlay = () => setIsPlaying(true);
-    const handlePause = () => setIsPlaying(false);
-
-    video.addEventListener("timeupdate", updateTime);
-    video.addEventListener("loadedmetadata", updateDuration);
-    video.addEventListener("play", handlePlay);
-    video.addEventListener("pause", handlePause);
-
-    return () => {
-      video.removeEventListener("timeupdate", updateTime);
-      video.removeEventListener("loadedmetadata", updateDuration);
-      video.removeEventListener("play", handlePlay);
-      video.removeEventListener("pause", handlePause);
-    };
-  }, []);
-
-  const togglePlay = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    if (video.paused) {
-      video.play();
-    } else {
-      video.pause();
-    }
-  };
-
-  const toggleMute = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    video.muted = !video.muted;
-    setIsMuted(video.muted);
-  };
-
-  const toggleFullscreen = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    if (document.fullscreenElement) {
-      document.exitFullscreen();
-    } else {
-      video.requestFullscreen();
-    }
-  };
-
-  const formatTime = (time: number, showSeconds = true) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60);
-    return showSeconds
-      ? `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
-      : `${minutes.toString().padStart(2, "0")}:00`;
-  };
-
-  /* ------------------------------  layout  -------------------------------- */
-
   return (
-    <div className="h-screen max-h-screen overflow-hidden bg-[#f5f2e8] text-[#7D2B18] flex flex-col items-center px-4 py-8">
+    <div className="min-h-dvh bg-site-bg text-site-text flex flex-col items-center px-4 pt-20 pb-[calc(2rem+env(safe-area-inset-bottom))] lg:py-8">
       {/* Site overlay */}
       <div
         className="fixed inset-0 pointer-events-none z-10 opacity-5"
@@ -87,106 +17,71 @@ export default function Home() {
       {/* Main content container */}
       <div className="w-full max-w-[1200px] flex flex-col items-center justify-center h-full space-y-6">
         {/* Top section with headline and date info - aligned to video edges */}
-        <div className="w-full max-w-[720px] flex flex-col lg:flex-row lg:justify-between lg:items-center space-y-8 lg:space-y-0 text-xl">
+        <div className="w-full max-w-[720px] 2xl:max-w-[880px] flex flex-col lg:flex-row lg:justify-between lg:items-center space-y-8 lg:space-y-0 text-xl">
           {/* Left side - headline and graphic */}
           <div>
-            &ldquo;Describe your perfect date...&rdquo;
+            <h1>&ldquo;Describe your perfect date...&rdquo;</h1>
             <div className="hidden lg:block mt-8 pl-16">
-              <Image src="/d1.svg" alt="" width={144} height={160} priority />
+              <Image
+                src="/d1.svg"
+                alt="Decorative illustration"
+                width={144}
+                height={160}
+                priority
+                sizes="144px"
+              />
             </div>
           </div>
 
           {/* Right side - date details */}
-          <div className="lg:text-right leading-relaxed">
-            <div className="mb-2">April 25, 2026.</div>
-            <div>Frankies 457 Spuntino.</div>
-            <div>A night in Carroll Gardens.</div>
-            <div>Dinner&apos;s on us.</div>
-            <div>Bring a light jacket.</div>
+          <div className="text-right leading-relaxed relative">
+            {/* d1 graphic behind text on mobile only */}
+            <div
+              className="absolute inset-0 flex items-end justify-start lg:hidden pointer-events-none"
+              style={{ bottom: "-54px", left: "-32px" }}
+            >
+              <Image
+                src="/d1.svg"
+                alt="Decorative illustration"
+                width={180}
+                height={200}
+                priority
+                sizes="180px"
+              />
+            </div>
+            <div className="relative z-10">
+              <h2 className="mb-2">April 25, 2026.</h2>
+              <div>Frankies 457 Spuntino.</div>
+              <div>A night in Carroll Gardens.</div>
+              <div>Dinner&apos;s on us.</div>
+              <div>Bring a light jacket.</div>
+            </div>
           </div>
         </div>
 
         {/* Video section */}
-        <div className="flex flex-col items-center space-y-4">
-          <div className="relative bg-[#f5f2e8] w-full max-w-[720px]">
-            <video
-              ref={videoRef}
-              className="bg-[#f5f2e8] cursor-pointer w-full h-auto"
-              poster="/cover.png"
-              onClick={togglePlay}
-            >
-              <source src="/sample-video.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-
-            {/* Play button overlay */}
-            {!isPlaying && (
-              <div
-                className="absolute inset-0 flex items-center justify-center cursor-pointer"
-                onClick={togglePlay}
-              >
-                <div className="w-16 h-16 flex items-center justify-center">
-                  <svg
-                    width="48"
-                    height="48"
-                    viewBox="0 0 24 24"
-                    fill="white"
-                    className="drop-shadow-lg"
-                  >
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* custom controls */}
-          <div className="flex justify-between text-xl w-full max-w-[720px]">
-            <div className="flex items-center gap-2">
-              <button
-                onClick={togglePlay}
-                className="hover:opacity-70 cursor-pointer"
-              >
-                {isPlaying ? "pause" : "play"}
-              </button>
-              {isPlaying && <span>{formatTime(currentTime)}/01:20</span>}
-            </div>
-
-            <div className="flex gap-6">
-              <button
-                onClick={toggleMute}
-                className="hover:opacity-70 cursor-pointer"
-              >
-                {isMuted ? "unmute" : "mute"}
-              </button>
-              <button
-                onClick={toggleFullscreen}
-                className="hover:opacity-70 cursor-pointer"
-              >
-                fullscreen
-              </button>
-            </div>
-          </div>
-        </div>
+        <VideoPlayer />
 
         {/* Bottom graphics */}
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center mt-8 lg:mt-0">
           <div className="relative flex items-center justify-center">
             <Image
               src="/d2.svg"
-              alt=""
+              alt="Decorative element"
               width={280}
               height={100}
               priority
-              className="ml-24"
+              className="ml-12 sm:ml-24 w-48 h-auto md:w-64 lg:w-[280px]"
+              sizes="(max-width: 768px) 192px, (max-width: 1024px) 280px, 280px"
             />
             <Image
               src="/logo.svg"
-              alt="Logo"
+              alt="Haley & Josh logo"
               width={65}
               height={65}
-              className="absolute opacity-80"
+              className="absolute opacity-80 w-12 h-12 md:w-14 md:h-14 lg:w-[65px] lg:h-[65px]"
               priority
+              sizes="(max-width: 768px) 48px, (max-width: 1024px) 56px, 65px"
             />
           </div>
         </div>

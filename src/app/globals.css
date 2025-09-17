@@ -6,6 +6,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-site-bg: var(--site-bg);
+  --color-site-text: var(--site-text);
   --font-sans: var(--font-ribes);
   --font-mono: var(--font-geist-mono);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -47,6 +49,8 @@
   --radius: 0.625rem;
   --background: #F9F4EC;
   --foreground: #7C2C1A;
+  --site-bg: #f5f2e8;
+  --site-text: #7D2B18;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -113,9 +117,6 @@
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
   body {
     @apply bg-background text-foreground;
   }
