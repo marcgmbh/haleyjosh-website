@@ -33,13 +33,58 @@ export default function VideoPlayer() {
     setIsMuted(video.muted);
   };
 
+  type FullscreenDocument = Document & {
+    webkitFullscreenElement?: Element | null;
+    webkitExitFullscreen?: () => Promise<void> | void;
+    msFullscreenElement?: Element | null;
+    msExitFullscreen?: () => Promise<void> | void;
+  };
+
+  type FullscreenVideo = HTMLVideoElement & {
+    webkitEnterFullscreen?: () => void;
+    webkitExitFullscreen?: () => void;
+    webkitRequestFullscreen?: () => Promise<void> | void;
+    msRequestFullscreen?: () => Promise<void> | void;
+  };
+
   const toggleFullscreen = () => {
-    const video = videoRef.current;
+    const video = videoRef.current as FullscreenVideo | null;
     if (!video) return;
-    if (document.fullscreenElement) {
-      document.exitFullscreen();
-    } else {
-      video.requestFullscreen();
+
+    const doc = document as FullscreenDocument;
+
+    // If already in fullscreen, try to exit (with vendor-prefixed fallbacks)
+    if (doc.fullscreenElement || doc.webkitFullscreenElement || doc.msFullscreenElement) {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (doc.webkitExitFullscreen) {
+        doc.webkitExitFullscreen();
+      } else if (doc.msExitFullscreen) {
+        doc.msExitFullscreen();
+      } else if (video.webkitExitFullscreen) {
+        // iOS legacy video API
+        try { video.webkitExitFullscreen(); } catch {}
+      }
+      return;
+    }
+
+    // Enter fullscreen with the best supported API
+    if (video.requestFullscreen) {
+      video.requestFullscreen().catch(() => {
+        // Some browsers (iOS Safari) may reject; fall back below
+        if (video.webkitEnterFullscreen) {
+          try { video.webkitEnterFullscreen(); } catch {}
+        } else if (video.webkitRequestFullscreen) {
+          try { video.webkitRequestFullscreen(); } catch {}
+        }
+      });
+    } else if (video.webkitEnterFullscreen) {
+      // iOS Safari (video-only)
+      try { video.webkitEnterFullscreen(); } catch {}
+    } else if (video.webkitRequestFullscreen) {
+      try { video.webkitRequestFullscreen(); } catch {}
+    } else if (video.msRequestFullscreen) {
+      try { video.msRequestFullscreen(); } catch {}
     }
   };
 

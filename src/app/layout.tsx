@@ -35,17 +35,17 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Haley + Josh get married",
-  description: "Haley + Josh get married",
+  title: "Haley + Josh Get Married",
+  description: "Haley + Josh Get Married",
   openGraph: {
-    title: "Haley + Josh get married",
-    description: "Haley + Josh get married",
+    title: "Haley + Josh Get Married",
+    description: "Haley + Josh Get Married",
     images: [
       {
         url: "/og.png",
         width: 1200,
         height: 630,
-        alt: "Haley + Josh get married",
+        alt: "Haley + Josh Get Married",
       },
     ],
   },
