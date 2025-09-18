@@ -118,8 +118,10 @@
 
 @layer base {
   html, body {
-    overflow: hidden;
-    height: 100vh;
+    /* allow vertical growth/scroll, but prevent horizontal scrollbars */
+    overflow-x: hidden;
+    /* start at the full available viewport height, but allow content to grow */
+    min-height: 100dvh;
   }
   
   body {

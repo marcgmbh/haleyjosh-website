@@ -3,7 +3,7 @@ import VideoPlayer from "./components/VideoPlayer";
 
 export default function Home() {
   return (
-    <div className="h-dvh bg-site-bg text-site-text flex flex-col items-center px-4 py-4 lg:py-8">
+    <div className="min-h-dvh bg-site-bg text-site-text flex flex-col items-center px-4 py-4 lg:py-8">
       {/* Site overlay */}
       <div
         className="fixed inset-0 pointer-events-none z-10 opacity-5"
